@@ -5,23 +5,22 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /src
 
-# Copy solution file
+# Copy solution and project files
 COPY StudentManagementSystem.sln .
 
-# Copy project files
-COPY StudentManagement.API/StudentManagement.API.csproj StudentManagement.API/
-COPY StudentManagement.Application/StudentManagement.Application.csproj StudentManagement.Application/
-COPY StudentManagement.Domain/StudentManagement.Domain.csproj StudentManagement.Domain/
-COPY StudentManagement.Infrastructure/StudentManagement.Infrastructure.csproj StudentManagement.Infrastructure/
+COPY StudentManagementSystem/StudentManagementSystem.csproj StudentManagementSystem/
+COPY Application/Application.csproj Application/
+COPY Domain/Domain.csproj Domain/
+COPY Infrastructure/Infrastructure.csproj Infrastructure/
 
 # Restore dependencies
 RUN dotnet restore StudentManagementSystem.sln
 
-# Copy remaining source code
+# Copy the remaining source
 COPY . .
 
-# Publish API
-RUN dotnet publish StudentManagement.API/StudentManagement.API.csproj \
+# Publish the API
+RUN dotnet publish StudentManagementSystem/StudentManagementSystem.csproj \
     -c Release \
     -o /app/publish \
     /p:UseAppHost=false
@@ -40,4 +39,4 @@ EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-ENTRYPOINT ["dotnet", "StudentManagement.API.dll"]
+ENTRYPOINT ["dotnet", "StudentManagementSystem.dll"]
