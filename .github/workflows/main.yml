@@ -27,10 +27,10 @@ jobs:
 
       - name: Publish API
         run: |
-          dotnet publish StudentManagement.API/StudentManagement.API.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./publish
+          dotnet publish StudentManagementSystem/StudentManagementSystem.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./publish
 
       - name: Upload Publish Artifact
         uses: actions/upload-artifact@v4
@@ -43,7 +43,7 @@ jobs:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: |
           echo "Triggering Render Deployment..."
-          curl --fail --silent --show-error --max-time 60 --request POST "$RENDER_DEPLOY_HOOK"
+          curl --fail --request POST "$RENDER_DEPLOY_HOOK"
 
       - name: Deployment Completed
-        run: echo "Deployment triggered successfully."
+        run: echo "Render deployment triggered successfully."
