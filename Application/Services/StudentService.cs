@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.DTOs.StudentDTOs;
 using Application.Interfaces;
 using Domain.Entities;
 using System;
@@ -18,85 +19,109 @@ namespace Application.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<IEnumerable<StudentDTO>> GetAllStudentsAsync()
+        public async Task<IEnumerable<StudentMasterDTO>> GetAllStudentsAsync()
         {
             var students = await _studentRepository.GetAllAsync();
 
-            return students.Select(s => new StudentDTO
+            return students.Select(s => new StudentMasterDTO
             {
-                Id = s.Id,
-                Name = s.Name,
-                Age = s.Age,
-                Email = s.Email,
-                Course = s.Course
+                Id = s.Id,  
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Contact = s.Contact,
+                Address = s.Address,
+                ZipCode = s.ZipCode,
+                City = s.City,
+                State = s.State,
+                Course = s.Course,
+                IsActive = s.IsActive,
+                CreatedBy = s.CreatedBy,
+                CreatedOn = s.CreatedOn
             });
         }
-        public async Task<StudentDTO?> GetStudentByIdAsync(int id)
+        public async Task<StudentMasterDTO?> GetStudentByIdAsync(int id)
         {
             var student = await _studentRepository.GetByIdAsync(id);
             if (student == null)
                 return null;
-            return new StudentDTO
+            return new StudentMasterDTO
             {
                 Id = student.Id,
-                Name = student.Name,
-                Age = student.Age,
-                Email = student.Email,
-                Course = student.Course
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Contact = student.Contact,
+                Address = student.Address,
+                ZipCode = student.ZipCode,
+                City = student.City,
+                State = student.State,
+                Course = student.Course,
+                IsActive = student.IsActive,
+                CreatedBy = student.CreatedBy,
+                CreatedOn = student.CreatedOn
             };
         }
-        public async Task<StudentDTO> CreateStudentAsync(CreateStudentDTO studentDto)
+        public async Task<StudentMasterDTO> CreateStudentAsync(StudentMasterCreateDTO studentDto)
         {
-            var student = new Domain.Entities.Student
+            var student = new StudentMasterCreateDTO
             {
-                Name = studentDto.Name,
-                Age = studentDto.Age,
-                Email = studentDto.Email,
-                Course = studentDto.Course,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
+                Contact = studentDto.Contact,
                 Address = studentDto.Address,
+                ZipCode = studentDto.ZipCode,
+                City = studentDto.City,
+                State = studentDto.State,
+                Course = studentDto.Course,
                 IsActive = studentDto.IsActive,
                 CreatedBy = studentDto.CreatedBy,
+                CreatedOn = studentDto.CreatedOn
+            };                
+            var createdStudent = await _studentRepository.AddAsync(student);
+            return new StudentMasterDTO
+            {
+                FirstName = createdStudent.FirstName,
+                LastName = createdStudent.LastName,
+                Contact = createdStudent.Contact,
+                Address = createdStudent.Address,
+                ZipCode = createdStudent.ZipCode,
+                City = createdStudent.City,
+                Course = createdStudent.Course,
+                State = createdStudent.State,
+                IsActive = true, 
+                CreatedBy = createdStudent.CreatedBy,
                 CreatedOn = new DateTime()
             };
-            var createdStudent = await _studentRepository.AddAsync(student);
-            return new StudentDTO
-            {
-                Id = createdStudent.Id,
-                Name = createdStudent.Name,
-                Age = createdStudent.Age,
-                Email = createdStudent.Email,
-                Course = createdStudent.Course,
-                Address = createdStudent.Address,
-                IsActive = createdStudent.IsActive,
-                CreatedBy = createdStudent.CreatedBy,
-                CreatedOn = createdStudent.CreatedOn
-            };
         }
-        public async Task<StudentDTO?> UpdateStudentAsync(int id, UpdateStudentDTO studentDto)
+        public async Task<StudentMasterDTO?> UpdateStudentAsync(int id, StudentMasterUpdateDTO studentDto)
         {
-            var student = new Student
+            var student = new StudentMasterUpdateDTO
             {
-                Id = id,
-                Name = studentDto.Name,
-                Age = studentDto.Age,
-                Email = studentDto.Email,
-                Course = studentDto.Course,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
+                Contact = studentDto.Contact,
                 Address = studentDto.Address,
+                ZipCode = studentDto.ZipCode,
+                City = studentDto.City,
+                State = studentDto.State,
                 IsActive = studentDto.IsActive,
-                CreatedBy = studentDto.CreatedBy,
+                Course = studentDto.Course,
+                CreatedBy = "Abhishek",
                 CreatedOn = studentDto.CreatedOn
             };
             var updatedStudent = await _studentRepository.UpdateAsync(student);
             if (updatedStudent == null)
                 return null;
-            return new StudentDTO
+            return new StudentMasterDTO
             {
                 Id = updatedStudent.Id,
-                Name = updatedStudent.Name,
-                Age = updatedStudent.Age,
-                Email = updatedStudent.Email,
-                Course = updatedStudent.Course,
+                FirstName = updatedStudent.FirstName,
+                LastName = updatedStudent.LastName,
+                Contact = updatedStudent.Contact,
                 Address = updatedStudent.Address,
+                ZipCode = updatedStudent.ZipCode,
+                City = updatedStudent.City,
+                State = updatedStudent.State,
+                Course = updatedStudent.Course,
                 IsActive = updatedStudent.IsActive,
                 CreatedBy = updatedStudent.CreatedBy,
                 CreatedOn = updatedStudent.CreatedOn

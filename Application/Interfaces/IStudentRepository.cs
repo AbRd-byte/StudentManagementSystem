@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.StudentDTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace Application.Interfaces
 {
     public interface IStudentRepository
     {
-        Task<IEnumerable<Student>> GetAllAsync();
+        Task<IEnumerable<StudentMasterDTO>> GetAllAsync();
 
-        Task<Student?> GetByIdAsync(int id);
+        Task<StudentMasterDTO?> GetByIdAsync(int id);
 
-        Task<Student> AddAsync(Student student);
+        Task<StudentMasterCreateDTO> AddAsync(StudentMasterCreateDTO student);
 
-        Task<Student?> UpdateAsync(Student student);
+        Task<StudentMasterUpdateDTO?> UpdateAsync(StudentMasterUpdateDTO student);
 
         Task<bool> DeleteAsync(int id);
     }

@@ -15,6 +15,7 @@ namespace Infrastructure.Data
         {
         }
 
-        public DbSet<Student> Students => Set<Student>();
+        //public DbSet<Student> Students => Set<Student>();
+        public DbSet<StudentMaster> StudentMaster => Set<StudentMaster>();
     }
 }

@@ -9,8 +9,11 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.Services.AddDbContext<StudentDbContext>(options =>
+//    options.UseSqlServer(
+//        builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<StudentDbContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 // Register the StudentRepository with the DI container
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();

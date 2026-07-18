@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.DTOs.StudentDTOs;
 using Application.Interfaces;
 using Application.Services;
 using Domain.Entities;
@@ -52,7 +53,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost("insertrecords")]
-        public async Task<IActionResult> InsertStudent([FromBody] CreateStudentDTO studentDto)
+        public async Task<IActionResult> InsertStudent([FromBody] StudentMasterCreateDTO studentDto)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost("{id:int}/updaterecords")]
-        public async Task<IActionResult> UpdateStudent([FromBody] UpdateStudentDTO studentDto, int id)
+        public async Task<IActionResult> UpdateStudent([FromBody] StudentMasterUpdateDTO studentDto, int id)
         {
             try
             {
