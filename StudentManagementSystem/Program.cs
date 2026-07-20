@@ -43,8 +43,11 @@ builder.Services.AddSwaggerGen(options =>
         options.IncludeXmlComments(xmlPath);
     }
 });
-builder.Services.AddSwaggerGen();
-
+// Override default config to avoid file watchers in production
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: builder.Environment.IsDevelopment())
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: builder.Environment.IsDevelopment())
+    .AddEnvironmentVariables();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
